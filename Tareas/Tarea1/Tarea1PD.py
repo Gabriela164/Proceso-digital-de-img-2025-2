@@ -1,0 +1,302 @@
+"""
+
+Script que recibe una imagen y le aplica varios filtros sencillos:
+
+1. Filtro mosaico
+2. Filtro blanco y negro (Promedio RGB)
+3. Filtro blanco y negro (Ponderado 0.2R, 0.7G, 0.1G)
+4. Filtro alto contraste 
+5. Filtro inverso contraste 
+6. Filtro mica RGB por separado 
+7. Filtro mica RGB combinados
+8. Filtro brillo
+
+Alumna: Gabriela López Diego 
+No. de cuenta: 318243485 
+Fecha: Febrero 2025
+
+"""
+
+from PIL import Image, ImageEnhance
+
+
+def filtro_mosaico(imagen, tamano_bloque=20):
+    '''
+    Aplica un filtro de mosaico a una imagen, dividiéndola en bloques de tamaño definido y reemplazando 
+    cada bloque con el color promedio de sus píxeles. Esto genera un efecto pixelado.
+
+    Parámetros:
+    1. imagen: Imagen de entrada a la que se aplicará el filtro.
+    2. tamano_bloque: Tamaño de cada mosaico en píxeles. 
+
+    Devuelve:
+    1.Nueva imagen con el filtro mosaico aplicado.
+    '''
+    imagen = imagen.convert("RGB")  
+    pixels = imagen.load()
+    ancho, altura = imagen.size
+
+    for y in range(0, altura, tamano_bloque):
+        for x in range(0, ancho, tamano_bloque):
+            r_total, g_total, b_total, count = 0, 0, 0, 0
+
+            # Calcular el color promedio del bloque
+            for i in range(tamano_bloque):
+                for j in range(tamano_bloque):
+                    if x + j < ancho and y + i < altura:
+                        r, g, b = pixels[x + j, y + i]
+                        r_total += r
+                        g_total += g
+                        b_total += b
+                        count += 1
+                        
+            if count > 0:
+                color_promedio = (r_total // count, g_total // count, b_total // count)
+                
+            # Asignar el color promedio al bloque
+            for i in range(tamano_bloque):
+                for j in range(tamano_bloque):
+                    if x + j < ancho and y + i < altura:
+                        pixels[x + j, y + i] = color_promedio
+    return imagen
+
+
+def filtro_blanco_negro_promedio(imagen):
+    '''
+    Convierte una imagen a blanco y negro usando el promedio de los valores RGB.
+
+    Parámetros:
+    1. imagen: Imagen de entrada.
+
+    Devuelve:
+    1.Imagen en blanco y negro (escala de grises).
+    '''
+    ancho, altura = imagen.size
+    nueva_imagen = imagen.copy()
+
+    for x in range(ancho):
+        for y in range(altura):
+            r, g, b = nueva_imagen.getpixel((x,y))
+            gris = (r + g + b) // 3 #promedio 
+            nueva_imagen.putpixel((x, y), (gris,gris,gris))
+    return nueva_imagen
+
+
+
+def filtro_blanco_negro_ponderado(imagen):
+    '''
+    Convierte una imagen a blanco y negro usando (0.2R,0.7G,0.1G)
+
+    Parámetros:
+    1. imagen : Imagen de entrada
+
+    Devuelve:
+    1. Imagen en blanco y negro (escala de grises)
+    '''
+    ancho, altura = imagen.size
+    nueva_imagen = imagen.copy()
+
+    for x in range(ancho):
+        for y in range(altura):
+            r, g, b = imagen.getpixel((x, y))
+            gris = int(0.2 * r + 0.7 * g + 0.1 * g)
+            nueva_imagen.putpixel((x, y), (gris,gris,gris))
+    return nueva_imagen
+
+
+def filtro_alto_contraste(imagen):
+    '''
+    Aplica un filtro de alto contraste, convirtiendo los píxeles a blanco o negro según su intensidad.
+
+    Parámetros:
+    1. Imagen: Imagen de entrada para plicar el filtro. 
+    
+    Devuelve:
+    1. Imagen con alto contraste.
+    '''
+    ancho, altura = imagen.size
+    nueva_imagen = imagen.copy()
+
+    for x in range(ancho):
+        for y in range(altura):
+            r, g, b = imagen.getpixel((x, y))
+            # Calcular el valor de gris (promedio ponderado)
+            gris = int(0.299 * r + 0.587 * g + 0.114 * b)
+            # Determinamos si el píxel es blanco o negro en función de la intensidad del gris
+            nuevo_color = (255, 255, 255) if gris > 128 else (0, 0, 0)
+            nueva_imagen.putpixel((x, y), nuevo_color)
+
+    return nueva_imagen
+
+
+def filtro_alto_contraste_inverso(imagen):
+    '''
+    Aplica un filtro de alto contraste inverso, convirtiendo los píxeles a blanco o negro según su intensidad.
+
+    Parámetros:
+    - imagen: Imagen de entrada.
+    
+    Devuelve:
+    1. Imagen con alto contraste inverso.
+    '''
+    ancho, altura = imagen.size    
+    nueva_imagen = imagen.copy()
+
+    # Iterar sobre cada píxel
+    for x in range(ancho):
+        for y in range(altura):
+            r, g, b = imagen.getpixel((x, y))
+            gris = int(0.299 * r + 0.587 * g + 0.114 * b)
+            #Invertimos la lógica
+            nuevo_color = (0, 0, 0) if gris > 128 else (255, 255, 255)
+            nueva_imagen.putpixel((x, y), nuevo_color)
+    return nueva_imagen
+
+
+def filtro_mica_separado(imagen):
+    '''
+    Separa los canales de color RGB de la imagen en imágenes individuales.
+
+    Parámetros:
+    1. imagen: Imagen de entrada.
+
+    Devuelve:
+    1. Tres imágenes cada una representando un canal de color (R, G, B).
+    '''
+    imagen = imagen.copy().convert("RGB")   
+
+    # Crear imágenes vacías para cada canal de color
+    imagen_roja = Image.new("RGB", imagen.size)      
+    imagen_verde = Image.new("RGB", imagen.size)      
+    imagen_azul = Image.new("RGB", imagen.size)      
+
+    # Obtenemos los píxeles de la imagen original y de las nuevas imágenes
+    pixeles = imagen.load()
+    pixeles_rojo = imagen_roja.load()
+    pixeles_verde = imagen_verde.load()
+    pixeles_azul = imagen_azul.load()
+    
+    ancho, altura = imagen.size  
+
+    # Recorrer la imagen y extraer cada canal
+    for i in range(ancho):
+        for j in range(altura):
+    
+            r, g, b = pixeles[i, j]
+            pixeles_rojo[i, j] = (r, 0, 0)   #Asignamos el color rojo y los demás en 0
+            pixeles_verde[i, j] = (0, g, 0)  #Asginamos el color verde y los demás en 0
+            pixeles_azul[i, j] = (0, 0, b)   #Asignamos el color azul y los demás en 0
+            
+    return imagen_roja, imagen_verde, imagen_azul
+
+
+def filtro_mica_combinado(imagen):
+    '''
+    Intercambia los canales de color RGB de la imagen de forma combinada de RGB a GBR.
+
+    Parámetros:
+    1. imagen: Imagen de entrada.
+
+    Devuelve:
+    1. Imagen con los colores intercambiados.
+    '''
+    imagen = imagen.copy()
+    pixeles = imagen.load()
+    ancho, altura = imagen.size  
+
+    for i in range(ancho):
+        for j in range(altura):
+            r, g, b = pixeles[i, j]     #Recuperamos los colores RGB
+            pixeles[i, j] = (g, b, r)   #Combinamos los colores RGB a GBR
+            
+    return imagen
+
+
+def filtro_brillo(imagen, factor=1.5):
+    '''
+    Ajusta el brillo de la imagen multiplicando cada componente RGB por un factor.
+
+    Parámetros:
+    1. imagen : Imagen de entrada.
+    2. factor: Factor de brillo (1.0 = sin cambio, >1.0 = más brillante, <1.0 = más oscuro).
+
+    Devuelve:
+    1. Imagen con el brillo ajustado.
+    '''
+    imagen = imagen.convert("RGB")
+    pixeles = imagen.load()
+
+    for i in range(imagen.width):
+        for j in range(imagen.height):
+            r, g, b = pixeles[i, j]
+
+            # Ajustamos el brillo multiplicando cada componente por el factor
+            r = int(r * factor)
+            g = int(g * factor)
+            b = int(b * factor)
+
+            # Nos aseguramos de que los valores no superen 255 ni bajen de 0
+            r = min(255, max(0, r))
+            g = min(255, max(0, g))
+            b = min(255, max(0, b))
+
+            # Asignar el nuevo valor al píxel
+            pixeles[i, j] = (r, g, b)
+
+    return imagen
+
+
+def main():
+    
+    #Le solicitamos al usuario el nombre de la imagen
+    imagen_path = input("Ingrese el nombre de la imagen junto con la extensión\na la que desea aplicar los filtros (ejemplo.jpg): ")
+    
+    try:
+        img = Image.open("ejemplo.jpg")
+    except FileNotFoundError:
+        print("Error: No se encontro el archivo")
+        return
+    
+    # Aplicamos todos los filtros implementados a la imagen dada
+    
+    # 1. Filtro mosaico
+    img_mosaico = filtro_mosaico(img)
+    img_mosaico.save("1_mosaicoFiltro.jpg")
+
+    # 2. Filtro blanco y negro promedio 
+    img_bn_promedio = filtro_blanco_negro_promedio(img)
+    img_bn_promedio.save("2_bn_promedio.jpg") 
+    
+       
+    # 3. Filtro blanco y negro ponderado 
+    img_bn_ponderado = filtro_blanco_negro_ponderado(img)
+    img_bn_ponderado.save("3_bn_ponderado.jpg")
+    
+    # 4. Filtro alto contraste 
+    img_alto_contraste = filtro_alto_contraste(img)
+    img_alto_contraste.save("4_alto_contraste.jpg")
+    
+    # 5. Filtro alto contraste inverso 
+    img_contraste_inverso = filtro_alto_contraste_inverso(img)
+    img_contraste_inverso.save("5_inverso_contraste.jpg")
+    
+    # 6. Filtro mica RGB por separado 
+    img1_rgb_s, img2_rgb_s, img3_rgb_s = filtro_mica_separado(img)
+    img1_rgb_s.save("6_rgb_separado1.jpg")
+    img2_rgb_s.save("6_rgb_separado2.jpg")
+    img3_rgb_s.save("6_rgb_separado3.jpg")
+    
+    # 7. Filtro mica RGB combinado 
+    img_rgb_combinado = filtro_mica_combinado(img)
+    img_rgb_combinado.save("7_rgb_combinado.jpg")
+    
+    # 8. Filtro brillo 
+    img_brillo = filtro_brillo(img)
+    img_brillo.save("8_brillo.jpg") 
+    
+    
+    print("\n¡REALIZADO!\nSe ha aplicado todos los filtros a la imagen dada en la misma ruta")
+    
+
+if __name__ == "__main__":
+    main()

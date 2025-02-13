@@ -31,16 +31,12 @@ Repositorio creado para almacenar las tareas y proyecto del curso **Proceso digi
 
 <table>
     <tr>
-        <th> Titular </th>
         <th> Nombre </th>
+        <th> No de cuenta </th>
     </tr>
     <tr>
-        <td> 👩🏻💻 Alumna </td>
         <td> López Diego Gabriela</td>
-    </tr>
-     <tr>
-        <td> No. de cuenta </td>
-        <td> 318243485 </td>
+        <td> 318243485 <td>
     </tr>
 </table>
 
