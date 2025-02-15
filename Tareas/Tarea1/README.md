@@ -30,7 +30,7 @@ Aplicar filtros sencillos a una imagen dada por el usuario. Nuestro script ejecu
 
 * Filtro mosaico
 * Filtro escala de grises (Promedio RGB)
-* Filtro escala de grises (Ponderado 0.2R, 0.7G, 0.1G)
+* Filtro escala de grises (Ponderado 0.3R, 0.7G, 0.1B)
 * Filtro alto contraste 
 * Filtro inverso contraste (negativo)
 * Filtro mica RGB por separado 
