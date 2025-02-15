@@ -29,10 +29,10 @@
 Aplicar filtros sencillos a una imagen dada por el usuario. Nuestro script ejecuta los siguientes filtros. 
 
 * Filtro mosaico
-* Filtro blanco y negro (Promedio RGB)
-* Filtro blanco y negro (Ponderado 0.2R, 0.7G, 0.1G)
+* Filtro escala de grises (Promedio RGB)
+* Filtro escala de grises (Ponderado 0.2R, 0.7G, 0.1G)
 * Filtro alto contraste 
-* Filtro inverso contraste 
+* Filtro inverso contraste (negativo)
 * Filtro mica RGB por separado 
 * Filtro mica RGB combinado
 * Filtro brillo
@@ -41,7 +41,7 @@ Aplicar filtros sencillos a una imagen dada por el usuario. Nuestro script ejecu
 
 ## 📌 Explicación de ejecución
 
-Ejecutar el script .py en VSC (o nuestro IDE preferido) o escribir el siguiente **comando en terminal**.
+Ejecutar el script .py en VSC (o nuestro IDE preferido) o bien, escribir el siguiente **comando en terminal**.
 
 Linux:
 
@@ -55,7 +55,7 @@ En windows:
 python Tarea1PD.py
 ```
 
-Luego, otorgamos el nombre del archivo o ruta donde se encuentre la imagen a la que deseeamos aplicar los filtros (incluyendo la extención png o jpg). En nuestro caso, escribiremos: 
+Luego, otorgamos el nombre del archivo o ruta donde se encuentre la imagen a la que deseeamos aplicar los filtros (incluyendo la extención png o jpg). En nuestro caso, debemos escribir: 
 
 ``` bash
 ejemplo.jpg

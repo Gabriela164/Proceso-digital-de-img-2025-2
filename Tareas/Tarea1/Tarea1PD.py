@@ -3,8 +3,8 @@
 Script que recibe una imagen y le aplica varios filtros sencillos:
 
 1. Filtro mosaico
-2. Filtro blanco y negro (Promedio RGB)
-3. Filtro blanco y negro (Ponderado 0.2R, 0.7G, 0.1G)
+2. Filtro escala de grises (Promedio RGB)
+3. Filtro escala de grises (Ponderado (.30*r + .70*g + .10*b))
 4. Filtro alto contraste 
 5. Filtro inverso contraste 
 6. Filtro mica RGB por separado 
@@ -61,7 +61,7 @@ def filtro_mosaico(imagen, tamano_bloque=20):
     return imagen
 
 
-def filtro_blanco_negro_promedio(imagen):
+def filtro_gris_promedio(imagen):
     '''
     Convierte una imagen a blanco y negro usando el promedio de los valores RGB.
 
@@ -83,9 +83,9 @@ def filtro_blanco_negro_promedio(imagen):
 
 
 
-def filtro_blanco_negro_ponderado(imagen):
+def filtro_gris_ponderado(imagen):
     '''
-    Convierte una imagen a blanco y negro usando (0.2R,0.7G,0.1G)
+    Convierte una imagen a blanco y negro usando (.30*r + .70*g + .10*b)
 
     Parámetros:
     1. imagen : Imagen de entrada
@@ -99,7 +99,7 @@ def filtro_blanco_negro_ponderado(imagen):
     for x in range(ancho):
         for y in range(altura):
             r, g, b = imagen.getpixel((x, y))
-            gris = int(0.2 * r + 0.7 * g + 0.1 * g)
+            gris = int(.30 * r + .70 * g + .10 * b)
             nueva_imagen.putpixel((x, y), (gris,gris,gris))
     return nueva_imagen
 
@@ -212,28 +212,29 @@ def filtro_mica_combinado(imagen):
     return imagen
 
 
-def filtro_brillo(imagen, factor=1.5):
+def filtro_brillo(imagen, ajuste=50):
     '''
-    Ajusta el brillo de la imagen multiplicando cada componente RGB por un factor.
+    Ajusta el brillo de la imagen sumando o restando un valor a cada componente RGB.
 
     Parámetros:
     1. imagen : Imagen de entrada.
-    2. factor: Factor de brillo (1.0 = sin cambio, >1.0 = más brillante, <1.0 = más oscuro).
+    2. ajuste: Valor de ajuste de brillo.
 
     Devuelve:
-    1. Imagen con el brillo ajustado.
+    1. Imagen con el brillo modificado.
     '''
     imagen = imagen.convert("RGB")
     pixeles = imagen.load()
+    ancho,altura = imagen.size
 
-    for i in range(imagen.width):
-        for j in range(imagen.height):
+    for i in range(ancho):
+        for j in range(altura):
             r, g, b = pixeles[i, j]
 
-            # Ajustamos el brillo multiplicando cada componente por el factor
-            r = int(r * factor)
-            g = int(g * factor)
-            b = int(b * factor)
+            # Ajustamos el brillo sumando o restando el valor de ajuste
+            r = r + ajuste
+            g = g + ajuste
+            b = b + ajuste
 
             # Nos aseguramos de que los valores no superen 255 ni bajen de 0
             r = min(255, max(0, r))
@@ -264,12 +265,12 @@ def main():
     img_mosaico.save("1_mosaicoFiltro.jpg")
 
     # 2. Filtro blanco y negro promedio 
-    img_bn_promedio = filtro_blanco_negro_promedio(img)
+    img_bn_promedio = filtro_gris_promedio(img)
     img_bn_promedio.save("2_bn_promedio.jpg") 
     
        
     # 3. Filtro blanco y negro ponderado 
-    img_bn_ponderado = filtro_blanco_negro_ponderado(img)
+    img_bn_ponderado = filtro_gris_ponderado(img)
     img_bn_ponderado.save("3_bn_ponderado.jpg")
     
     # 4. Filtro alto contraste 
