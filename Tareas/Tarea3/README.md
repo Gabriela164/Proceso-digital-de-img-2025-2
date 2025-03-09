@@ -17,8 +17,8 @@ En esta tarea generamos una imagen de forma recrusiva a partir de una imagen de 
 
 <h4>Imágenes recursivas</h4>
 <p>
-    <img src="img/cat.png" width="200" style="display: inline-block;"/>
-    <img src="img/girl.png" width="200" style="display: inline-block;"/>
+    <img src="img/recursiva1.png" width="200" style="display: inline-block;"/>
+    <img src="img/recursiva2.png" width="200" style="display: inline-block;"/>
 </p>
 
 
