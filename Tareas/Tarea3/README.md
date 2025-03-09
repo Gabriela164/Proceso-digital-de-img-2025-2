@@ -8,17 +8,19 @@ En esta tarea generamos una imagen de forma recrusiva a partir de una imagen de 
 
 <!-- Muestra tres imágenes en un mismo renglón -->
 
-<p>
 <h4>Imágenes originales</h4>
-<img src="img/cat.png"  width="220"/>
-<img src="img/girl.png"  width="220"/>
+<p>
+    <img src="img/cat.png" width="200" style="display: inline-block;"/>
+    <img src="img/girl.png" width="200" style="display: inline-block;"/>
 </p>
 
-<p>
+
 <h4>Imágenes recursivas</h4>
-<img src="img/recursiva1.png"  width="220"/>
-<img src="img/recursiva2.png"  width="220"/>
+<p>
+    <img src="img/cat.png" width="200" style="display: inline-block;"/>
+    <img src="img/girl.png" width="200" style="display: inline-block;"/>
 </p>
+
 
 
 
