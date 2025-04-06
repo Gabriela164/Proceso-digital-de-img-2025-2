@@ -12,7 +12,7 @@ from Tareas.Tarea3.Tarea_img_recursivas import *
 from Tareas.Tarea3.CSV import *
 from Tareas.Tarea_dithering.tarea_dithering import *
 from Tareas.Tarea_semitonos_dados.semitonos_datos import dices_filter, semitones
-
+from Tareas.Tarea_oleo.tarea_oleo import watercolor, grey_scale
 
 def load_image():
     '''
@@ -90,6 +90,10 @@ def apply_filter(filter_type):
         filtered_image = semitones(original_image, 6, "white", "black")
     elif filter_type == "dados":
         filtered_image = dices_filter(original_image, 7, (0,0,0), (255,255,255))
+    elif filter_type == "oleo color":
+        filtered_image = watercolor(original_image, 15, 1)
+    elif filter_type == "oleo blanco y negro":
+        filtered_image = watercolor(original_image, 15, 2)
      
     # Guardamos el filtro actual aplicado
     current_filter.set(f"Filtro aplicado: {filter_type}") 
@@ -129,7 +133,7 @@ root.title("Filtros en imágenes")
 original_image = None
 filtered_image = None
 current_filter = tk.StringVar() # Variable para mostrar el filtro actual
-current_filter.set("Filtro: ninguno")  # Valor por defecto
+current_filter.set("Filtro aplicado: Ninguno")  # Valor por defecto
 
 # Crear etiquetas para los títulos sobre las imágenes
 title_left = tk.Label(root, text="Imagen original", font=("Arial", 12, "bold"))
@@ -175,6 +179,11 @@ filter_menu.add_cascade(label="Filtros dithering", menu=filters_dithering)
 #Opción filtros semitonos y dados y lo agregamos al menu
 filters_semitones_dice = tk.Menu(filter_menu, tearoff=0)
 filter_menu.add_cascade(label="Filtros semitonos y dados", menu=filters_semitones_dice)
+
+#Opción filtros oleo con color y oleo en blanco y negro
+filters_oleo = tk.Menu(filter_menu, tearoff=0)
+filter_menu.add_cascade(label="Filtros oleo", menu=filters_oleo)
+
 
 '''
 Agregamos opciones a la sección de filtros tarea 1
@@ -241,6 +250,16 @@ Opción 2: Dados
 '''
 filters_semitones_dice.add_command(label="Semitonos", command=lambda: apply_filter("semitonos"))
 filters_semitones_dice.add_command(label="Dados", command=lambda: apply_filter("dados"))
+
+
+'''
+Agregamos la opción de oleo 
+Opción 1: Oleo color
+Opción 2: Oleo blanco y negro
+'''
+filters_oleo.add_command(label="Oleo color", command=lambda: apply_filter("oleo color"))
+filters_oleo.add_command(label="Oleo blanco y negro", command=lambda: apply_filter("oleo blanco y negro"))
+
 
 # Ejecuta la interfaz de usuario
 root.mainloop()

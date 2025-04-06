@@ -42,7 +42,8 @@ Se tiene una carpeta llamada **Tareas** que contiene las siguientes carpetas
 3.  `Tarea3`: Contiene el script `Tarea_img_recursivas` junto con otra carpeta _CSV_ necesario para que el script aplique el filtro de imagenes recursivas. Esta configurado para aplicar la misma imagén de relleno. 
 4.  `Tarea_dithering.py`: Contiene el script `tarea_dithering` que aplica una lista de filtros dithering: azar, ordenado, disperso, disperso 2x2, disperso 4x4, Floyd steinberg y jarvis judice ninken. 
 5.  `MarcaDeAgua`: Contiene un script `Tarea_marca_de_agua.py` y la imagen `logo_prueba.py`  que acturá como marca de agua sobre las imagenes originales. Y una carpeta con _img_reto_ma_ que contiene las imagenes del reto sin la marca de agua. 
-7.  (**NUEVO**) `Tarea_semitonos_dados` contiene `semitonos_dados.py` que realiza los filtros de semitonos y dados. 
+7. `Tarea_semitonos_dados` contiene `semitonos_dados.py` que realiza los filtros de semitonos y dados. 
+8. `Tarea_oleo`: Contiene `Tarea_oleo.py` que aplica los filtros oleo color y oleo blanco y negro (acuarela). 
 
 
 Junto a la carpeta **Tareas** se tiene 
@@ -104,4 +105,4 @@ Podemos utilizar la imagen **rabbit.png** que se encuentra en el mismo directori
 ## Alumna y No. de cuenta
 
 * ✨👩🏻 Gabriela López Diego 318243485
-* Fecha: Marzo 2025
+* Fecha: Abril 2025
