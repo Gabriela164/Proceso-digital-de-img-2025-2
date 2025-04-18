@@ -25,56 +25,64 @@ def grey_scale(original_image, version):
     Aplica dos versiones de la escala de grises a una imagen.  
     '''
     if original_image:   
+        
         original_image =  original_image.copy().convert("RGBA")   
         grey_img = Image.new("RGBA", original_image.size) 
         
+        #Obtenemos los pixeles de cada imagen
         pixels = original_image.load()
         grey_pixels = grey_img.load()
         
+        #Recorremos cada pixel de la imagen original
         for i in range(original_image.width):
             for j in range(original_image.height):
-                r, g, b, a = pixels[i, j] # Obtener los valores de los canales de color
-                grey = (r + g + b) // 3   # Calcular el promedio de los canales de color
+                r, g, b, a = pixels[i, j] # Obtener los valores RGBA 
+                grey = (r + g + b) // 3   # Obtenemos el gris promedio de cada pixel
 
-                if version == 2:
-                    grey = int(r*0.299 + g*0.587 + b*0.114)  # Calcular el promedio ponderado de los canales de color
+                if version == 2: #Si es la version 2
+                    grey = int(r*0.299 + g*0.587 + b*0.114)  # Multiplicamos cada canal por un factor para obtener un gris ponderado
 
-                grey_pixels[i, j] = (grey, grey, grey, a)
+                grey_pixels[i, j] = (grey, grey, grey, a) #Asignamos el nuevo valor a cada canal RGBA
          
-        return grey_img
+        return grey_img #Retorna una imagen en escala de grises
     
     
 def get_average_color(image, x, y, width, height, version):  
     '''
     Funcion para obtener el color promedio de una zona dentro de una imagen.
     '''
-    pixels = image.load()
+    pixels = image.load()   
     total_r, total_g, total_b, count, a = 0, 0, 0, 0, 0    
     average_color = -1
 
     if version == 1 or version == 2:
+        #Iteramos en bloques sobre la imagen dada
         for i in range(x, min(x + width, image.width)):
             for j in range(y, min(y + height, image.height)):
 
                 if version == 1:
+                    #Si la imagen dada esta en escala de grises
                     grey = pixels[i, j][0] # Tomar el valor de gris (R=G=B)
                     a =  pixels[i, j][3]
                     total_g += grey
                 else:
+                    #En caso contrario,
                     temp_r, temp_g, temp_b, a = pixels[i, j]
-                    total_r += temp_r                       # Genera la suma para el promedio
+                    total_r += temp_r # Aumentamos el contador para cada canal
                     total_g += temp_g
                     total_b += temp_b
 
-                count += 1
+                count += 1 # Aumentamos el contador
 
         if count == 0:
             average_color = 0
         elif version == 1:
+            #Obtenemos el promedio. Cada contador de cada canal se divide entre el contador total y el canal A permanece igual. 
             average_color = (total_g // count, total_g // count, total_g // count, a)
         else:
             average_color = (total_r // count, total_g // count, total_b // count, a)
     
+    #Devuelve el color promedio de una zona dentro de una imagen 
     return average_color
 
 
@@ -112,17 +120,21 @@ def random_dithering(reference_image):
     '''
     Función que aplica dithering al azar 
     '''
-    image_width, image_height = reference_image.size
-    result_image = Image.new("RGBA", reference_image.size) 
+    image_width, image_height = reference_image.size     #Se obtiene las dimensiones de la imagen de referencia 
+    result_image = Image.new("RGBA", reference_image.size)  #Creamos una nueva imagen RGBA del mismo tamaño
+    
+    #Cargamos los pixeles de ambas imagenes
     result_pixels = result_image.load() 
     reference_pixels = reference_image.load()
 
+    #Iteramos sobre cada pixel de la imagen de referencia
     for x in range(image_width):
-        for y in range(image_height):
-            r, g, b, a = reference_pixels[x, y]
+        for y in range(image_height):                   
+            r, g, b, a = reference_pixels[x, y]        # Obtenemos los valores de cada canal RGBA
             random_threshold = random.randint(0, 255)  # Genera un valor aleatorio para el umbral
+            
             new_pixel = 255 if r > random_threshold else 0
-            result_pixels[x, y] = (new_pixel, new_pixel, new_pixel, a)
+            result_pixels[x, y] = (new_pixel, new_pixel, new_pixel, a)  #Asignamos el nuevo pixel 
     
     return result_image
 

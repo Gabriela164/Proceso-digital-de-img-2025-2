@@ -11,7 +11,7 @@ from Tareas.MarcaDeAgua.Tarea_marca_de_agua import *
 from Tareas.Tarea3.Tarea_img_recursivas import *
 from Tareas.Tarea3.CSV import *
 from Tareas.Tarea_dithering.tarea_dithering import *
-from Tareas.Tarea_semitonos_dados.semitonos_datos import dices_filter, semitones
+from Tareas.Tarea_semitonos_dados.semitonos_dados import dices_filter, semitones
 from Tareas.Tarea_oleo.tarea_oleo import watercolor, grey_scale
 
 def load_image():

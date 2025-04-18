@@ -20,20 +20,22 @@ def grey_scale(original_image, version):
         grey_img: imagen en escala de grises
     '''
     if original_image:   
-        original_image =  original_image.copy().convert("RGBA")   
+        original_image =  original_image.copy().convert("RGBA")   #Creamos una copia y la convertimos a RGBA
         grey_img = Image.new("RGBA", original_image.size) # Crear una nueva imagen en modo RGB para almacenar el resultado del filtro
         
+        #Obtenemos los pixeles de las 2 imagenes anteriores
         pixels = original_image.load()
         grey_pixels = grey_img.load()
         
+        #Iteramos sobre cada pixel de la imagen original 
         for i in range(original_image.width):
-            for j in range(original_image.height):
-                r, g, b, a = pixels[i, j]
-                grey = (r + g + b) // 3 # Calcular el promedio de los valores de los canales RGB
+            for j in range(original_image.height): 
+                r, g, b, a = pixels[i, j]   #Obtenemos los valores de cada canal RGBA
+                grey = (r + g + b) // 3     #Calcular el promedio de los valores de los canales RGB
 
                 if version == 2:
                     grey = int(r*0.299 + g*0.587 + b*0.114) # Calcular el promedio ponderado de los valores de los canales RGB
-                grey_pixels[i, j] = (grey, grey, grey, a)
+                grey_pixels[i, j] = (grey, grey, grey, a)  #Se asgina los nuevos valores gris (el canal a permanece igual)
          
         return grey_img
     
@@ -49,34 +51,40 @@ def get_average_color(image, x, y, width, height, version):
     Retorna:
         average_color: color promedio de la zona
     '''
-    pixels = image.load()
-    total_r, total_g, total_b, count, a = 0, 0, 0, 0, 0    
-    average_color = -1
+    pixels = image.load()   #Carga los pixeles de la imagen
+    total_r, total_g, total_b, count, a = 0, 0, 0, 0, 0    #Inicializa los contadores en cero 
+    average_color = -1  
 
     if version == 1 or version == 2:
+        #Recorremos la imagen por bloques 
         for i in range(x, min(x + width, image.width)):
             for j in range(y, min(y + height, image.height)):
 
+                #Si la img esta en escala de grises 
                 if version == 1:
                     grey = pixels[i, j][0] # Tomar el valor de gris (R=G=B)
                     a =  pixels[i, j][3]
                     total_g += grey
                 else:
-                    temp_r, temp_g, temp_b, a = pixels[i, j]
-                    total_r += temp_r                       # Genera la suma para el promedio
+                    #En caso contrario, 
+                    temp_r, temp_g, temp_b, a = pixels[i, j] #Obtenemos los valores de cada canal de la img original
+                    total_r += temp_r   #Aumentamos los contadores de cada canal
                     total_g += temp_g
                     total_b += temp_b
 
-                count += 1
+                count += 1 #Aumentamos el contador total
 
         if count == 0:
+            #No hay color promedio 
             average_color = 0
         elif version == 1:
+            #Dividimos cada contador de cada canal entre el contador total (el canal A permanece igual)
             average_color = (total_g // count, total_g // count, total_g // count, a)
         else:
+            #Dividimos cada contador de cada canal entre el contador total (el canal A permanece igual)
             average_color = (total_r // count, total_g // count, total_b // count, a)
     
-    return average_color
+    return average_color #Retornamos el color promedio encontrado en dicha region 
 
 
 def generate_dice_face(value, square_length, background_color, dot_color):    

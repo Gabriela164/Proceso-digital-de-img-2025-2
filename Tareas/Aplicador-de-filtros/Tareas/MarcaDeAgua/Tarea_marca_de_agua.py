@@ -32,6 +32,6 @@ def apply_watermark(input_image_path, watermark_image_path="Tareas/MarcaDeAgua/l
     new_img.paste(base_image, (0,0))
     new_img.paste(watermark, position, mask=watermark)
     
-    return new_img
+    return new_img #Retorna la nueva imagen con la marca de agua
     
     
