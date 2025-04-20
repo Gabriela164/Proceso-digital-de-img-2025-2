@@ -32,7 +32,7 @@ def filtro_mosaico(imagen, tamano_bloque=20):
     Devuelve:
     1.Nueva imagen con el filtro mosaico aplicado.
     '''
-    imagen = imagen.convert("RGB")  
+    imagen = imagen.convert("RGBA")  
     pixels = imagen.load()
     ancho, altura = imagen.size
 
@@ -51,16 +51,15 @@ def filtro_mosaico(imagen, tamano_bloque=20):
                     # Verificamos que no nos salgamos de los límites de la imagen
                     if x + j < ancho and y + i < altura:
                         # Tomamos los valores RGB del píxel
-                        r, g, b = pixels[x + j, y + i]
+                        r, g, b, a = pixels[x + j, y + i]
                         r_total += r
                         g_total += g
                         b_total += b
                         count += 1
                         
             if count > 0:
-                # Calculamos el color promedio de cada valor RGB
-                color_promedio = (r_total // count, g_total // count, b_total // count)
-                
+                # Calculamos el color promedio de cada valor RGBA
+                color_promedio = ( r_total // count, g_total // count, b_total // count, a)
             # Asignar el color promedio obtenido al bloque
             for i in range(tamano_bloque):
                 for j in range(tamano_bloque):
@@ -79,17 +78,17 @@ def filtro_gris_promedio(imagen):
     Devuelve:
     1.Imagen en blanco y negro (escala de grises).
     '''
+    imagen = imagen.convert("RGBA")  
     ancho, altura = imagen.size 
     nueva_imagen = imagen.copy()
 
     for x in range(ancho):
         for y in range(altura):
-            r, g, b = nueva_imagen.getpixel((x,y)) #Para cada pixel obtenemos sus valores en formato RGB
+            r, g, b, a = nueva_imagen.getpixel((x,y)) #Para cada pixel obtenemos sus valores en formato RGB
             # Obtenemos el promedio de los 3 valores para encontrar un nivel de gris
             gris = (r + g + b) // 3  
-            nueva_imagen.putpixel((x, y), (gris,gris,gris)) #Colocamos el nuevo valor de gris a cada pixel 
+            nueva_imagen.putpixel((x, y), (gris,gris,gris,a)) #Colocamos el nuevo valor de gris a cada pixel 
     return nueva_imagen
-
 
 
 def filtro_gris_ponderado(imagen):
@@ -103,15 +102,17 @@ def filtro_gris_ponderado(imagen):
     Devuelve:
     1. Imagen en blanco y negro (escala de grises)
     '''
+    #Nos aseguramos que este en formato RGBA
+    imagen = imagen.convert("RGBA")  
     ancho, altura = imagen.size
     nueva_imagen = imagen.copy()
 
     #Recorremos cada pixel de la imagen 
     for x in range(ancho):
         for y in range(altura):
-            r, g, b = imagen.getpixel((x, y))
+            r, g, b, a = imagen.getpixel((x, y))
             gris = int(.30 * r + .70 * g + .10 * b)   #Aplicamos un peso distinto a cada canal (rojo 30%, verde 70%, azul 10%)
-            nueva_imagen.putpixel((x, y), (gris,gris,gris))
+            nueva_imagen.putpixel((x, y), (gris,gris,gris,a))
     return nueva_imagen
 
 
@@ -125,17 +126,18 @@ def filtro_alto_contraste(imagen):
     Devuelve:
     1. Imagen con alto contraste.
     '''
+    imagen = imagen.convert("RGBA")  
     ancho, altura = imagen.size
     nueva_imagen = imagen.copy()
 
     #Recorremos cada pixel de la imagen 
     for x in range(ancho):
         for y in range(altura):
-            r, g, b = imagen.getpixel((x, y))
+            r, g, b, a = imagen.getpixel((x, y))
             # Calcular el valor de gris (promedio ponderado estandar)
             gris = int(0.299 * r + 0.587 * g + 0.114 * b)
             # Si el valor de gris es más claro que 128 se vuelve blanco(255,255,255) sino se vuelve negro (0,0,0)
-            nuevo_color = (255, 255, 255) if gris > 128 else (0, 0, 0)
+            nuevo_color = (255, 255, 255, a) if gris > 128 else (0, 0, 0, a)
             nueva_imagen.putpixel((x, y), nuevo_color) # Aplicamos el nuevo color al pixel
 
     return nueva_imagen
@@ -151,16 +153,17 @@ def filtro_alto_contraste_inverso(imagen):
     Devuelve:
     1. Imagen con alto contraste inverso.
     '''
+    imagen = imagen.convert("RGBA")  
     ancho, altura = imagen.size    
     nueva_imagen = imagen.copy()
 
     # Recorremos cada pixel de la imagen
     for x in range(ancho):
         for y in range(altura):
-            r, g, b = imagen.getpixel((x, y))
+            r, g, b, a = imagen.getpixel((x, y))
             gris = int(0.299 * r + 0.587 * g + 0.114 * b)
             # Realiza el proceso opuesto al método alto contraste 
-            nuevo_color = (0, 0, 0) if gris > 128 else (255, 255, 255)
+            nuevo_color = (0, 0, 0, a) if gris > 128 else (255, 255, 255, a)
             nueva_imagen.putpixel((x, y), nuevo_color)
     return nueva_imagen
 
@@ -176,8 +179,8 @@ def filtro_mica_roja(imagen):
     Devuelve:
     - Imagen con la mica roja aplicada (solo el canal rojo visible).
     '''
-    imagen = imagen.copy().convert("RGB")   #Realiza una copia y lo convierte a formato RGB 
-    imagen_roja = Image.new("RGB", imagen.size)      #Creamos una nueva imagen con el mismo tamaño que la original (para pintar el canal rojo)
+    imagen = imagen.convert("RGBA")  
+    imagen_roja = Image.new("RGBA", imagen.size)      #Creamos una nueva imagen con el mismo tamaño que la original (para pintar el canal rojo)
 
     #Obtenemos los pixeles de la imagen original y de la nueva imagen
     pixeles = imagen.load() 
@@ -187,11 +190,11 @@ def filtro_mica_roja(imagen):
     #Recorremos cada pixel de la imagen
     for i in range(ancho):
         for j in range(altura):
-            # Obtenemos los valores RGB del pixel
-            r, g, b = pixeles[i, j]
+            # Obtenemos los valores RGBA del pixel
+            r, g, b, a = pixeles[i, j]
             # Asignamos el valor del canal rojo al nuevo pixel y los demás canales a 0 (apaga los demás canales)
             # Esto hace que la imagen resultante solo muestre el canal rojo
-            pixeles_rojo[i, j] = (r, 0, 0)
+            pixeles_rojo[i, j] = (r, 0, 0, a)
             
     return imagen_roja
 
@@ -207,8 +210,8 @@ def filtro_mica_verde(imagen):
     Devuelve:
     - Imagen con la mica verde aplicada (solo el canal verde visible).
     ''' 
-    imagen = imagen.copy().convert("RGB")   #Realiza una copia y lo convierte a formato RGB 
-    imagen_verde = Image.new("RGB", imagen.size)  #Creamos una nueva imagen con el mismo tamaño que la original (para pintar el canal verde)
+    imagen = imagen.copy().convert("RGBA")   #Realiza una copia y lo convierte a formato RGBA
+    imagen_verde = Image.new("RGBA", imagen.size)  #Creamos una nueva imagen con el mismo tamaño que la original (para pintar el canal verde)
 
     #Obtenemos los pixeles de la imagen original y de la nueva imagen
     pixeles = imagen.load()
@@ -219,10 +222,10 @@ def filtro_mica_verde(imagen):
     for i in range(ancho):
         for j in range(altura):
             # Obtenemos los valores RGB del pixel
-            r, g, b = pixeles[i, j]
+            r, g, b, a = pixeles[i, j]
             # Asignamos el valor del canal verde al nuevo pixel y los demás canales a 0 (apaga los demás canales)
             # Esto hace que la imagen resultante solo muestre el canal verde
-            pixeles_verde[i, j] = (0, g, 0)
+            pixeles_verde[i, j] = (0, g, 0, a)
 
     return imagen_verde
 
@@ -238,22 +241,21 @@ def filtro_mica_azul(imagen):
     Devuelve:
     - Imagen con la mica azul aplicada (solo el canal azul visible).
     '''
-    imagen = imagen.copy().convert("RGB")  #Realiza una copia y lo convierte a formato RGB
-    imagen_azul = Image.new("RGB", imagen.size) #Creamos una nueva imagen con el mismo tamaño que la original (para pintar el canal azul)
+    imagen = imagen.copy().convert("RGBA")  #Realiza una copia y lo convierte a formato RGB
+    imagen_azul = Image.new("RGBA", imagen.size) #Creamos una nueva imagen con el mismo tamaño que la original (para pintar el canal azul)
 
     #Obtenemos los pixeles de la imagen original y de la nueva imagen
     pixeles = imagen.load()
     pixeles_azul = imagen_azul.load()
     ancho, altura = imagen.size
 
-
     for i in range(ancho):
         for j in range(altura):
             # Obtenemos los valores RGB del pixel
-            r, g, b = pixeles[i, j]
+            r, g, b, a = pixeles[i, j]
             # Asignamos el valor del canal azul al nuevo pixel y los demás canales a 0 (apaga los demás canales)
             # Esto hace que la imagen resultante solo muestre el canal azul
-            pixeles_azul[i, j] = (0, 0, b)
+            pixeles_azul[i, j] = (0, 0, b, a)
 
     return imagen_azul
 
@@ -268,14 +270,15 @@ def filtro_mica_combinado(imagen):
     Devuelve:
     1. Imagen con los colores intercambiados.
     '''
+    imagen = imagen.copy().convert("RGBA")   #Realiza una copia y lo convierte a formato RGBA
     imagen = imagen.copy()
     pixeles = imagen.load()
     ancho, altura = imagen.size  
 
     for i in range(ancho):
         for j in range(altura):
-            r, g, b = pixeles[i, j]     #Recuperamos los colores RGB
-            pixeles[i, j] = (g, b, r)   #Combinamos los colores RGB a GBR
+            r, g, b, a = pixeles[i, j]     #Recuperamos los colores RGB
+            pixeles[i, j] = (g, b, r, a)   #Combinamos los colores RGB a GBR
             
     return imagen
 
@@ -291,14 +294,14 @@ def filtro_brillo(imagen, ajuste=50):
     Devuelve:
     1. Imagen con el brillo modificado.
     '''
-    imagen = imagen.convert("RGB")   #Nos aseguramos de que la imagen esté en formato RGB
+    imagen = imagen.convert("RGBA")   #Nos aseguramos de que la imagen esté en formato RGB
     pixeles = imagen.load()          #Obtenemos los pixeles de la imagen
     ancho,altura = imagen.size
 
     #Recorremos cada pixel de la imagen
     for i in range(ancho):
         for j in range(altura):
-            r, g, b = pixeles[i, j]    #Obtenemos los valores RGB del pixel
+            r, g, b, a = pixeles[i, j]    #Obtenemos los valores RGB del pixel
 
             # Ajustamos el brillo sumando el valor de ajuste
             r = r + ajuste
@@ -311,7 +314,7 @@ def filtro_brillo(imagen, ajuste=50):
             b = min(255, max(0, b))
 
             # Asignamos los nuevos valores RGB al pixel
-            pixeles[i, j] = (r, g, b)
+            pixeles[i, j] = (r, g, b, a)
 
     return imagen
 

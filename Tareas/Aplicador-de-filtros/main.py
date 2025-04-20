@@ -13,6 +13,8 @@ from Tareas.Tarea3.CSV import *
 from Tareas.Tarea_dithering.tarea_dithering import *
 from Tareas.Tarea_semitonos_dados.semitonos_dados import dices_filter, semitones
 from Tareas.Tarea_oleo.tarea_oleo import watercolor, grey_scale
+from Tareas.Tarea_ATT.ATT import *
+from Tareas.Tarea_mosaicos_redondos_estrellas.circle_star import *
 
 def load_image():
     '''
@@ -94,7 +96,15 @@ def apply_filter(filter_type):
         filtered_image = watercolor(original_image, 15, 1)
     elif filter_type == "oleo blanco y negro":
         filtered_image = watercolor(original_image, 15, 2)
-     
+    elif filter_type == "efecto att":
+        filtered_image = filter_att(original_image, stripe_thickness=4)
+    elif filter_type == "mosaico circulo":
+        filtered_image = mosaics_with_shape(original_image, "Tareas/Tarea_mosaicos_redondos_estrellas/shapes/circle_white.png", 15, 1)
+    elif filter_type == "mosaico estrella":
+        filtered_image = mosaics_with_shape(original_image, "Tareas/Tarea_mosaicos_redondos_estrellas/shapes/star_white.png", 25, 0)
+    else:
+        filtered_image = "Filtro NO reconocido"
+        
     # Guardamos el filtro actual aplicado
     current_filter.set(f"Filtro aplicado: {filter_type}") 
     show_images()
@@ -184,6 +194,13 @@ filter_menu.add_cascade(label="Filtros semitonos y dados", menu=filters_semitone
 filters_oleo = tk.Menu(filter_menu, tearoff=0)
 filter_menu.add_cascade(label="Filtros oleo", menu=filters_oleo)
 
+#Opción filtros ATT y lo agregamos al menu
+filters_ATT = tk.Menu(filter_menu, tearoff=0)
+filter_menu.add_cascade(label="Filtro ATT", menu=filters_ATT)
+
+#Opción filtros mosaicos figuras y lo agregamos al menu
+filters_mosaicos_figuras = tk.Menu(filter_menu, tearoff=0)
+filter_menu.add_cascade(label="Filtros mosaicos figuras", menu=filters_mosaicos_figuras)
 
 '''
 Agregamos opciones a la sección de filtros tarea 1
@@ -201,10 +218,10 @@ tarea1_menu.add_command(label="Escala de grises ponderado", command=lambda: appl
 tarea1_menu.add_command(label="Escala de grises promedio", command=lambda: apply_filter("promedio"))
 tarea1_menu.add_command(label="Alto contraste", command=lambda: apply_filter("alto contraste"))
 tarea1_menu.add_command(label="Inverso contraste", command=lambda: apply_filter("inverso contraste"))
-tarea1_menu.add_command(label="RGB roja", command=lambda: apply_filter("mica roja"))
-tarea1_menu.add_command(label="RGB verde", command=lambda: apply_filter("mica verde"))
-tarea1_menu.add_command(label="RGB azul", command=lambda: apply_filter("mica azul"))
-tarea1_menu.add_command(label="RGB combinado", command=lambda: apply_filter("RGB combinado"))
+tarea1_menu.add_command(label="Mica roja", command=lambda: apply_filter("mica roja"))
+tarea1_menu.add_command(label="Mica verde", command=lambda: apply_filter("mica verde"))
+tarea1_menu.add_command(label="Mica azul", command=lambda: apply_filter("mica azul"))
+tarea1_menu.add_command(label="Mica combinado", command=lambda: apply_filter("RGB combinado"))
 tarea1_menu.add_command(label="Brillo", command=lambda: apply_filter("brillo"))
 
 '''
@@ -242,7 +259,6 @@ filters_dithering.add_command(label="Floyd-Steinberg Dithering", command=lambda:
 filters_dithering.add_command(label="Fake Floyd-Steinberg Dithering", command=lambda: apply_filter("Fake Floyd-Steinberg Dithering"))
 filters_dithering.add_command(label="Jarvis, Judice, Ninke", command=lambda: apply_filter("Jarvis, Judice, Ninke"))
 
-
 '''
 Agregamos las dos opciones de semitonos y dados dentro de la sección de filtros semitonos y dados
 Opción 1: Semitonos
@@ -250,7 +266,6 @@ Opción 2: Dados
 '''
 filters_semitones_dice.add_command(label="Semitonos", command=lambda: apply_filter("semitonos"))
 filters_semitones_dice.add_command(label="Dados", command=lambda: apply_filter("dados"))
-
 
 '''
 Agregamos la opción de oleo 
@@ -260,6 +275,19 @@ Opción 2: Oleo blanco y negro
 filters_oleo.add_command(label="Oleo color", command=lambda: apply_filter("oleo color"))
 filters_oleo.add_command(label="Oleo blanco y negro", command=lambda: apply_filter("oleo blanco y negro"))
 
+'''
+Agregamos la opción de filtro ATT
+Opción 1: Efecto AT&T
+'''
+filters_ATT.add_command(label="Efecto AT&T", command=lambda: apply_filter("efecto att"))
+
+'''
+Agregamos las opciones de mosaicos con figuras
+Opción 1: Mosaico circulo
+Opción 2: Mosaico estrella
+'''
+filters_mosaicos_figuras.add_command(label="Mosaico circulo", command=lambda: apply_filter("mosaico circulo"))
+filters_mosaicos_figuras.add_command(label="Mosaico estrella", command=lambda: apply_filter("mosaico estrella"))
 
 # Ejecuta la interfaz de usuario
 root.mainloop()
