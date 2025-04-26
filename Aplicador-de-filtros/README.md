@@ -14,6 +14,7 @@
 
 ## Alumna y No. de cuenta
 
+* Facultad de Ciencias, UNAM. 
 * 👩🏻 Gabriela López Diego 318243485
 * Fecha: Abril 2025
 
@@ -54,21 +55,35 @@ Instalar las siguiente dependencias para que se ejecute de forma correcta el pro
 
 Se tiene una carpeta llamada **Tareas** que contiene ACTUALMENTE las siguientes carpetas
 
-1. `Tarea1` : Contiene el script `Tarea1PD.py` que aplica los filtros:  mosaico, escala de grises (Promedio RGB), escala de grises (Ponderado (.30*r + .70*g + .10*b)), alto contraste, inverso contraste, RGB por separado, RGB combinado, brillo
-2.  `Tarea2`: Contiene el script `Tarea2PD`y una carpeta _Fuentes_ con las fuentes: roboto, domino negro, domino blanco y cartas de tipo `.ttf`. Este script aplica los filtros sopa de letras. 
-3.  `Tarea3`: Contiene el script `Tarea_img_recursivas` junto con otra carpeta _CSV_ necesario para que el script aplique el filtro de imagenes recursivas. Esta configurado para aplicar la misma imagén de relleno. 
-4.  `Tarea_dithering.py`: Contiene el script `tarea_dithering` que aplica una lista de filtros dithering: azar, ordenado, disperso, disperso 2x2, disperso 4x4, Floyd steinberg y jarvis judice ninken. 
-5.  `MarcaDeAgua`: Contiene un script `Tarea_marca_de_agua.py` y la imagen `logo_prueba.py`  que acturá como marca de agua sobre las imagenes originales. Y una carpeta con _img_reto_ma_ que contiene las imagenes del reto sin la marca de agua. 
-7. `Tarea_semitonos_dados` contiene `semitonos_dados.py` que realiza los filtros de semitonos y dados. 
-8. `Tarea_oleo`: Contiene `Tarea_oleo.py` que aplica los filtros oleo color y oleo blanco y negro (acuarela). 
-9. `Tarea_mosaicos_redondos_estrellas` contiene el script que genera mosaicos usando circulos o estrellas utilizando el color promedio de regiones con tamaño especificos. 
-10. `Tarea AT&T`: contiene el script que aplica el filtro que simula el logo AT&T con ayuda de franjas negras. 
+1. `Tarea1` : Contiene el script *Tarea1PD.py* que aplica los filtros:  mosaico, escala de grises (Promedio RGB), escala de grises (Ponderado (.30*r + .70*g + .10*b)), alto contraste, inverso contraste, RGB por separado, RGB combinado, brillo
+2.  `Tarea2`: Contiene el script *Tarea2PD* y una carpeta _Fuentes_ con las fuentes: roboto, domino negro, domino blanco y cartas de tipo `.ttf`. Este script aplica los filtros sopa de letras. 
+3.  `Tarea3`: Contiene el script *Tarea_img_recursivas* junto con otra carpeta _CSV_ necesario para que el script aplique el filtro de imagenes recursivas. Esta configurado para aplicar la misma imagén de relleno. 
+4.  `Tarea_dithering.py`: Contiene un script  que aplica una lista de filtros dithering: azar, ordenado, disperso, disperso 2x2, disperso 4x4, Floyd steinberg y jarvis judice ninken. 
+5.  `MarcaDeAgua`: Contiene un script que coloca un logo a una imagen como marca de agua y una carpeta **retoQuitarMarcas** que contiene *quitar_marcas.py* que quita las marcas de agua de color rojo de las 4 imagenes indicadas.
+6. `Tarea_semitonos_dados` contiene *semitonos_dados.py* que realiza los filtros de semitonos y dados. 
+7. `Tarea_oleo`: Contiene *Tarea_oleo.py* que aplica los filtros oleo color y oleo blanco y negro (acuarela). 
+8. `Tarea_mosaicos_redondos_estrellas` contiene el script que genera mosaicos usando circulos o estrellas utilizando el color promedio de regiones con tamaño especificos. 
+9.  `Tarea_ATT`: contiene el script que aplica el filtro que simula el logo AT&T con ayuda de franjas negras. 
 
 
 Junto a la carpeta **Tareas** se tiene 
 - `img-readme`: Imagenes utilizadas dentro del readme. 
 - `README.md`: readme para las instrucciones de ejecución y dependencias necesarias.  
 - `main.py`: Archivo .py principal que nos ayuda a mostrar al usuario una interfaz de usuario y le permita aplicar aplicar el filtro que desee y pueda visualizarlo en tiempo real.  De igual manera, permite descargar la imagen con el filtro aplicado. 
+
+
+**NOTA IMPORTANTE**: El reto de quitar marcas de agua no esta incluido dentro de la interfaz de usuario. Debemos dirigirnos al directorio:
+
+```bah
+Tareas/MarcaDeAgua/retoQuitarMarcas
+```
+Una vez dentro de la carpeta ejecutar el script (En linux) en windows solo es **python**
+
+```bah
+python3 quitar_marcas.py
+```
+
+Esto nos generará dentro de la carpeta **img_sin_ma** las imágenes indicadas sin la marca de agua roja que tenia anteriormente. 
 
 ## 📌 Explicación de ejecución
 
@@ -85,7 +100,7 @@ En windows:
 ``` bash
 python main.py
 ```
-Podemos utilizar la imagen **rabbit.png** que se encuentra en el mismo directorio o escoger alguna otra imagen.
+Podemos utilizar la imagen **ejemplo.png** que se encuentra en el mismo directorio o escoger alguna otra imagen.
 
 <img src="ejemplo.png" width=120>
 
