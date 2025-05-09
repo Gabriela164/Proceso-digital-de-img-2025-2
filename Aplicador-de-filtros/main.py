@@ -15,6 +15,8 @@ from Tareas.Tarea_semitonos_dados.semitonos_dados import dices_filter, semitones
 from Tareas.Tarea_oleo.tarea_oleo import watercolor, grey_scale
 from Tareas.Tarea_ATT.ATT import *
 from Tareas.Tarea_mosaicos_redondos_estrellas.circle_star import *
+from Tareas.Tarea_ecualizacion_histograma.ecualizacion_de_histograma import ecualizar_histograma
+from Tareas.Tarea_teoria_de_cuerdas.cuerdas import *;
 
 def load_image():
     '''
@@ -102,6 +104,10 @@ def apply_filter(filter_type):
         filtered_image = mosaics_with_shape(original_image, "Tareas/Tarea_mosaicos_redondos_estrellas/shapes/circle_white.png", 15, 1)
     elif filter_type == "mosaico estrella":
         filtered_image = mosaics_with_shape(original_image, "Tareas/Tarea_mosaicos_redondos_estrellas/shapes/star_white.png", 25, 0)
+    elif filter_type == "Ecualizacion de histograma":
+        filtered_image = ecualizar_histograma(original_image)
+    elif filter_type == "Arte cuerdas":
+        filtered_image = string_art(original_image)
     else:
         filtered_image = "Filtro NO reconocido"
         
@@ -114,8 +120,8 @@ def show_images():
     global original_image, filtered_image
     
     # Redimensionar las imágenes
-    original_image_resized = original_image.resize((550, 550))
-    filtered_image_resized = filtered_image.resize((550, 550))
+    original_image_resized = original_image.resize((650, 650))
+    filtered_image_resized = filtered_image.resize((650, 650))
 
     # Convertir las imágenes a formato que Tkinter pueda mostrar
     original_image_tk = ImageTk.PhotoImage(original_image_resized)
@@ -128,7 +134,6 @@ def show_images():
     img_label_left.config(image=original_image_tk)
     img_label_left.image = original_image_tk
     
-
 # Función para guardar la imagen filtrada
 def save_image():
     file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG", "*.png"), ("JPEG", "*.jpg")])
@@ -201,6 +206,10 @@ filter_menu.add_cascade(label="Filtro ATT", menu=filters_ATT)
 #Opción filtros mosaicos figuras y lo agregamos al menu
 filters_mosaicos_figuras = tk.Menu(filter_menu, tearoff=0)
 filter_menu.add_cascade(label="Filtros mosaicos figuras", menu=filters_mosaicos_figuras)
+
+#Opcion más filtros y lo agregamos al menu
+more_filters = tk.Menu(filter_menu, tearoff=0)
+filter_menu.add_cascade(label="Más filtros", menu=more_filters)
 
 '''
 Agregamos opciones a la sección de filtros tarea 1
@@ -288,6 +297,13 @@ Opción 2: Mosaico estrella
 '''
 filters_mosaicos_figuras.add_command(label="Mosaico circulo", command=lambda: apply_filter("mosaico circulo"))
 filters_mosaicos_figuras.add_command(label="Mosaico estrella", command=lambda: apply_filter("mosaico estrella"))
+
+'''
+Agregamos la opción de ecualización de histograma dentro de la sección de -más filtros-
+Opción 1: Ecualización de histograma
+'''
+more_filters.add_command(label="Ecualización de histograma", command=lambda: apply_filter("Ecualizacion de histograma"))
+more_filters.add_command(label="Arte cuerdas", command=lambda: apply_filter("Arte cuerdas"))
 
 # Ejecuta la interfaz de usuario
 root.mainloop()

@@ -16,7 +16,7 @@
 
 * Facultad de Ciencias, UNAM. 
 * 👩🏻 Gabriela López Diego 318243485
-* Fecha: Abril 2025
+* Fecha: Mayo 2025
 
 
 ## **DESCRIPCIÓN** : Aplicador de varios tipos de filtros
@@ -44,13 +44,11 @@ Aplicar conceptos de procesamiento de imágenes y recursividad para transformar 
 
 Instalar las siguiente dependencias para que se ejecute de forma correcta el proyecto. 
   ``` bash 
-    pip install pillow
-  ```
-
-  ``` bash 
-    pip install numpy
+    pip install pillow numpy matplotlib scipy
   ```
   
+NOTA: En caso de usar linux, se recomienda usar un entorno virtual.
+
 ## ⭐ Estructura del trabajo
 
 Se tiene una carpeta llamada **Tareas** que contiene ACTUALMENTE las siguientes carpetas
@@ -64,7 +62,8 @@ Se tiene una carpeta llamada **Tareas** que contiene ACTUALMENTE las siguientes 
 7. `Tarea_oleo`: Contiene *Tarea_oleo.py* que aplica los filtros oleo color y oleo blanco y negro (acuarela). 
 8. `Tarea_mosaicos_redondos_estrellas` contiene el script que genera mosaicos usando circulos o estrellas utilizando el color promedio de regiones con tamaño especificos. 
 9.  `Tarea_ATT`: contiene el script que aplica el filtro que simula el logo AT&T con ayuda de franjas negras. 
-
+10. `Tarea_ecualizacion_histograma`: contiene un .py que aplica el filtro de ecualización de histogramas. 
+11. `Tareas_teoria_de_cuerdas`: contiene el .py que aplica el filtro de hilos. 
 
 Junto a la carpeta **Tareas** se tiene 
 - `img-readme`: Imagenes utilizadas dentro del readme. 
@@ -89,20 +88,18 @@ Esto nos generará dentro de la carpeta **img_sin_ma** las imágenes indicadas s
 
 Ejecutar el script .py en VSC (o nuestro IDE preferido) o bien, escribir el siguiente **comando en terminal** en la ruta donde se encuentre el mismo archivo **main.py**
 
-Linux:
+LINUX:
 
 ``` bash
 python3 main.py
 ```
 
-En windows:
+En WINDOWS:
 
 ``` bash
 python main.py
 ```
-Podemos utilizar la imagen **ejemplo.png** que se encuentra en el mismo directorio o escoger alguna otra imagen.
-
-<img src="ejemplo.png" width=120>
+Podemos utilizar la imagenes que colocamos como ejemplo para probar los distintos filtros. Se recomienda usar histograma.jpg para aplicar la ecualizacion y el retrato de mosalisa para aplicar el filtro de arte de hilos para apreciar mejores resultados. 
 
 
 ## 📚 Ejemplo de ejecución
