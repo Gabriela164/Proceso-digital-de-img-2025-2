@@ -1,6 +1,6 @@
 # ✨👾 Proyecto Final - Proceso Digital de Imagenes 2025-2 
 
-Repositorio para almacenar el proyecto final **fotomorsaicos** del curso **Proceso digital del imagenes 2025-2**. 
+Repositorio para almacenar el proyecto final **fotomorsaicos** del curso.
 
 
 ## Alumna y No. de cuenta
