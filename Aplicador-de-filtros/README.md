@@ -1,4 +1,4 @@
-# 🖼️ 🌱 Proceso Digital de imágenes 2025-2
+# 🖼️ 🌱 Aplicador de filtros: Proceso Digital de imágenes 2025-2
 
 
 * 👨🏻‍🏫**Profesor** : Manuel Cristóbal López Michelone
@@ -14,9 +14,9 @@
 
 ## Alumna y No. de cuenta
 
-* Facultad de Ciencias, UNAM. 
+* 📚 Facultad de Ciencias, UNAM. 
 * 👩🏻 Gabriela López Diego 318243485
-* Fecha: Mayo 2025
+* 📆 Fecha: Mayo 2025
 
 
 ## **DESCRIPCIÓN** : Aplicador de varios tipos de filtros
@@ -99,7 +99,7 @@ En WINDOWS:
 ``` bash
 python main.py
 ```
-Podemos utilizar la imagenes que colocamos como ejemplo para probar los distintos filtros. Se recomienda usar histograma.jpg para aplicar la ecualizacion y el retrato de mosalisa para aplicar el filtro de arte de hilos para apreciar mejores resultados. 
+Podemos utilizar la imagenes que colocamos como ejemplo para probar los distintos filtros que se encuentran dentro de la carpeta _img-para-probar_. Se recomienda usar histograma.jpg para aplicar la ecualizacion y el retrato de mosalisa para aplicar el filtro de arte de hilos para apreciar mejores resultados. 
 
 
 ## 📚 Ejemplo de ejecución
