@@ -94,4 +94,6 @@ No se adjuntaron las imagenes dentro de la `carpeta imagenes` ya que eran demasi
 
 Así que en dicha carpeta, **se deben agregar las imagenes** que se ocuparán para construir los morsaicos y el proyecto pueda ejecutarse satisfactoriamente. 
 
+Nosotros utilizamos las imagenes de la carpeta `imagenes.rar` para probar nuestro generador de morsaicos. 
+
 ---
